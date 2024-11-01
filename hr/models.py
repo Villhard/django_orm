@@ -2,6 +2,13 @@ import uuid
 from django.db import models
 
 
+class Contact(models.Model):
+    phone = models.CharField(max_length=50, unique=True)
+    address = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.phone
+
 class Employee(models.Model):
     class Workplace(models.IntegerChoices):
         JOB_1 = 1, "Junior"
@@ -16,6 +23,7 @@ class Employee(models.Model):
         default=Workplace.JOB_1,
         help_text="Choose your workplace",
     )
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE, blank=True, null=True)
 
     @property
     def full_name(self):
