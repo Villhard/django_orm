@@ -9,6 +9,15 @@ class Contact(models.Model):
     def __str__(self):
         return self.phone
 
+
+class Department(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Employee(models.Model):
     class Workplace(models.IntegerChoices):
         JOB_1 = 1, "Junior"
@@ -24,6 +33,7 @@ class Employee(models.Model):
         help_text="Choose your workplace",
     )
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE, blank=True, null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, default=None)
 
     @property
     def full_name(self):
